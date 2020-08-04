@@ -1,6 +1,9 @@
 package com.vankeytech.vocabulary.adapter;
 
 import com.hankcs.hanlp.corpus.io.IIOAdapter;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 
@@ -19,7 +22,8 @@ public class ResourceFileIOAdapter implements IIOAdapter {
     public InputStream open(String path) throws IOException {
         boolean isCache = path.endsWith("bin");
         if (path.startsWith(CUSTOMIZE)){
-           return new FileInputStream(path.substring(CUSTOMIZE.length()+1));
+            path = path.substring(CUSTOMIZE.length() + 1);
+            return ClassUtils.getDefaultClassLoader().getResourceAsStream(path);
         }else {
             if (path.contains(SEPARATE)) {
                 path = path.substring(path.indexOf("/") + 1);
