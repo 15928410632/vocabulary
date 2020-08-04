@@ -15,6 +15,9 @@ public class ResourceFileIOAdapter implements IIOAdapter {
     @Override
     public InputStream open(String path) throws IOException {
         boolean isCache = path.endsWith("bin");
+        if (path.contains("/")){
+            path = path.substring(path.indexOf("/")+1);
+        }
         if (isCache) {
             path = "dictionary/cache/" + path;
         }else {
