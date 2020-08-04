@@ -6,6 +6,9 @@ import com.hankcs.hanlp.utility.TextUtility;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.hankcs.hanlp.utility.Predefine.logger;
 
@@ -60,73 +63,96 @@ public class HanLpProperties {
      */
     private String ioAdapter;
 
+    public String getCoreDictionaryPath() {
+        return coreDictionaryPath;
+    }
+
+    public String getBiGramDictionaryPath() {
+        return biGramDictionaryPath;
+    }
+
+    public String[] getCustomDictionaryPath() {
+        return customDictionaryPath;
+    }
+
+    public String getCoreStopWordDictionaryPath() {
+        return coreStopWordDictionaryPath;
+    }
+
+    public String getCoreSynonymDictionaryDictionaryPath() {
+        return coreSynonymDictionaryDictionaryPath;
+    }
+
+    public String getPersonDictionaryPath() {
+        return personDictionaryPath;
+    }
+
+    public String getPersonDictionaryTrPath() {
+        return personDictionaryTrPath;
+    }
+
+    public String getTcDictionaryRoot() {
+        return tcDictionaryRoot;
+    }
+
+    public String getCharTypePath() {
+        return charTypePath;
+    }
+
+    public String getCharTablePath() {
+        return charTablePath;
+    }
+
+    public String getIoAdapter() {
+        return ioAdapter;
+    }
+
     public void setCoreDictionaryPath(String coreDictionaryPath) {
-        HanLP.Config.CoreDictionaryPath = coreDictionaryPath;
+       this.coreDictionaryPath = "customize:"+coreDictionaryPath;
     }
 
     public void setBiGramDictionaryPath(String biGramDictionaryPath) {
-        HanLP.Config.BiGramDictionaryPath = biGramDictionaryPath;
+       this.biGramDictionaryPath = "customize:"+biGramDictionaryPath;
     }
 
     public void setCustomDictionaryPath(String[] customDictionaryPath) {
-        HanLP.Config.CustomDictionaryPath = customDictionaryPath;
+        List<String> strings = new ArrayList<>(Arrays.asList(HanLP.Config.CustomDictionaryPath));
+        for (String path : customDictionaryPath) {
+            strings.add("customize:"+path);
+        }
+        this.customDictionaryPath = strings.toArray(new String[strings.size()]);
     }
 
     public void setCoreStopWordDictionaryPath(String coreStopWordDictionaryPath) {
-        HanLP.Config.CoreStopWordDictionaryPath = coreStopWordDictionaryPath;
+        this.coreStopWordDictionaryPath = "customize:"+coreStopWordDictionaryPath;
     }
 
     public void setCoreSynonymDictionaryDictionaryPath(String coreSynonymDictionaryDictionaryPath) {
-        HanLP.Config.CoreSynonymDictionaryDictionaryPath = coreSynonymDictionaryDictionaryPath;
+        this.coreSynonymDictionaryDictionaryPath = "customize:"+coreSynonymDictionaryDictionaryPath;
     }
 
     public void setPersonDictionaryPath(String personDictionaryPath) {
-        HanLP.Config.PersonDictionaryPath = personDictionaryPath;
+        this.personDictionaryPath = "customize:"+personDictionaryPath;
     }
 
     public void setPersonDictionaryTrPath(String personDictionaryTrPath) {
-        HanLP.Config.PersonDictionaryTrPath = personDictionaryTrPath;
+        this.personDictionaryTrPath = "customize:"+personDictionaryTrPath;
     }
 
     public void setTcDictionaryRoot(String tcDictionaryRoot) {
-        HanLP.Config.tcDictionaryRoot = tcDictionaryRoot;
+       this.tcDictionaryRoot = "customize:"+tcDictionaryRoot;
     }
 
     public void setCharTypePath(String charTypePath) {
-        HanLP.Config.CharTypePath = charTypePath;
+        this.charTypePath = "customize:"+charTypePath;
     }
 
     public void setCharTablePath(String charTablePath) {
-        HanLP.Config.CharTablePath = charTablePath;
+        this.charTablePath = "customize:"+charTablePath;
     }
 
     public void setIoAdapter(String ioAdapter) {
-        if (ioAdapter != null)
-        {
-            try
-            {
-                Class<?> clazz = Class.forName(ioAdapter);
-                Constructor<?> ctor = clazz.getConstructor();
-                Object instance = ctor.newInstance();
-                HanLP.Config.IOAdapter = (IIOAdapter) instance;
-            }
-            catch (ClassNotFoundException e)
-            {
-                logger.warning(String.format("找不到IO适配器类： %s ，请检查第三方插件jar包", ioAdapter));
-            }
-            catch (NoSuchMethodException e)
-            {
-                logger.warning(String.format("工厂类[%s]没有默认构造方法，不符合要求", ioAdapter));
-            }
-            catch (SecurityException e)
-            {
-                logger.warning(String.format("工厂类[%s]默认构造方法无法访问，不符合要求", ioAdapter));
-            }
-            catch (Exception e)
-            {
-                logger.warning(String.format("工厂类[%s]构造失败：%s\n", ioAdapter, TextUtility.exceptionToString(e)));
-            }
-        }
+        this.ioAdapter = ioAdapter;
     }
 
 }
