@@ -12,7 +12,6 @@ import java.util.*;
  * @author liuheng
  * @date 2020/8/3 14:37
  */
-@Component
 public class Participle {
 
     @Resource

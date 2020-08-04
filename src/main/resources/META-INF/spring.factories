@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.vankeytech.vocabulary.config.HanLpConfig,\
+  com.vankeytech.vocabulary.business.Participle

@@ -5,9 +5,13 @@ import com.hankcs.hanlp.corpus.io.IIOAdapter;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
+import com.vankeytech.vocabulary.business.Participle;
 import lombok.extern.log4j.Log4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +26,6 @@ import static com.hankcs.hanlp.HanLP.newSegment;
  * @author liuheng
  * @date 2020/7/31 9:56
  */
-@Configuration
 @EnableConfigurationProperties(value = {HanLpProperties.class,SegmentProperties.class})
 public class HanLpConfig {
 
@@ -31,7 +34,7 @@ public class HanLpConfig {
     @Resource
     private SegmentProperties segmentProperties;
 
-    @Bean
+    @Bean(name = "segment")
     public Segment segment(){
         CustomDictionary.reload();
         Segment segment = newSegment();

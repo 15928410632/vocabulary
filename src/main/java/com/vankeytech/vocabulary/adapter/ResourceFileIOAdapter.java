@@ -20,11 +20,7 @@ public class ResourceFileIOAdapter implements IIOAdapter {
         }else {
             path = "dictionary/"+path;
         }
-        URL resource = this.getClass().getClassLoader().getResource(path);
-        if (resource != null){
-            return new FileInputStream(resource.getFile());
-        }
-        return new FileInputStream(path);
+        return this.getClass().getClassLoader().getResourceAsStream(path);
     }
     @Override
     public OutputStream create(String path) throws IOException {
